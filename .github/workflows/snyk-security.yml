@@ -1,0 +1,15 @@
+name: Snyk
+on: [push, pull_request]
+jobs:
+  snyk:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install Snyk
+      run: npm install -g snyk
+    - name: Snyk Auth
+      uses: snyk/actions/setup@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    - name: Snyk Test
+      run: snyk test --severity-threshold=high
